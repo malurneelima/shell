@@ -1,4 +1,10 @@
 #!/bin/bash
+
+LOGFOLDER="/var/lib/shell-script"
+SCRIPT_NAME=$($0 |cut -d "." -f1)
+TIMESTAMP= $(date +%Y-%m-%d-%H-%M-%S)
+LOG_FILE="$LOGFOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGFOLDER
 USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
@@ -7,7 +13,7 @@ N="\e[0m"
 CHECK_ROOT(){
     if [ $USERID -ne 0 ]
     then
-        echo "Please run this script with root privileges"
+        echo -e "$R Please run this script with root privileges $N" &>>$LOG_FILE
         exit 1
     fi
 }
