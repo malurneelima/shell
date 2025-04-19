@@ -26,7 +26,15 @@ CHECK_ROOT
 # We can execute as sh 14-loops.sh git mysql ..
 for package in $@
 do
-    echo $package
+    dnf list installed $package
+    if [ $? -ne 0]
+    then
+        echo "$package is not installed...going to install"
+        dnf install $package -y
+        VALIDATE $? "Installing $package"
+    else
+        echo "$package is already installed..nothing to do"
+    fi
 done
 
 
