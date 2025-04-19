@@ -11,10 +11,12 @@ G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
 
+echo "Script started executing at $(date)"
+
 CHECK_ROOT(){
     if [ $USERID -ne 0 ]
     then
-        echo -e "$R Please run this script with root privileges $N" &>>$LOG_FILE
+        echo -e "$R Please run this script with root privileges $N" |tee -a &>>$LOG_FILE
         exit 1
     fi
 }
@@ -46,11 +48,11 @@ do
     dnf list installed $package &>>$LOG_FILE
     if [ $? -ne 0 ]
     then
-        echo "$package is not installed...going to install"&>>$LOG_FILE
+        echo "$package is not installed...going to install" |tee -a &>>$LOG_FILE
         dnf install $package -y
         VALIDATE $? "Installing $package"
     else
-        echo -e "$package is already $Y installed..nothing to do $N"&>>$LOG_FILE
+        echo -e "$package is already $Y installed..nothing to do $N" |tee -a &>>$LOG_FILE
     fi
 done
 
