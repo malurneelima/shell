@@ -19,6 +19,16 @@ CHECK_ROOT(){
     fi
 }
 
+USAGE(){
+    echo -e "$R USAGE:: $N sudo sh $0 package1 package2 ...."
+    exit 1
+}
+
+if [ $# -eq 0]
+then
+    USAGE
+fi
+
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
