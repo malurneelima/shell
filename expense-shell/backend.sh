@@ -61,7 +61,7 @@ rm -rf /app/* #remove the existing code
 unzip /tmp/backend.zip &>>LOG_FILE
 VALIDATE $? "Extracting backend application code"
 
-npm install
+npm install &>>LOG_FILE
 cp /home/ec2-user/shell/expense-shell/backend.service /etc/systemd/system/backend.service #Copy the backend service file from git clone's folder to /etc.
 
 #load the data before running backend
