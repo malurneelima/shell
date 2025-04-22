@@ -61,6 +61,21 @@ rm -rf /app/* #remove the existing code
 unzip /tmp/backend.zip &>>LOG_FILE
 VALIDATE $? "Extracting backend application code"
 
-#cd /app
-#npm install
-#vim /etc/systemd/system/backend.service
+npm install
+cp /home/ec2-user/shell/expense-shell/backend.service /etc/systemd/system/backend.service #Copy the backend service file from git clone's folder to /etc.
+
+#load the data before running backend
+dnf install mysql -y &>>LOG_FILE #installing mysql client
+VALIDATE $? "Validate Mysql Client"
+
+mysql -h 54.242.127.117 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>LOG_FILE #Load Schema
+VALIDATE $? "Schema Loading..."
+
+systemctl daemon-reload &>>LOG_FILE
+VALIDATE $? "Daemon reload"
+
+systemctl start backend &>>LOG_FILE
+VALIDATE $? "Enabled backend"
+
+systemctl restart backend &>>LOG_FILE
+VALIDATE $? "Restarted backend"
