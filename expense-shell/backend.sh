@@ -36,7 +36,7 @@ CHECK_ROOT
 dnf module disable nodejs -y &>>LOG_FILE
 VALIDATE $? "Disable default nodejS"
 dnf module enable nodejs:20 -y &>>LOG_FILE
-VALIDATE $? "EnablingEnable nodejS:20"
+VALIDATE $? "Enable nodejS:20"
 dnf install nodejs -y &>>LOG_FILE
 VALIDATE $? "Install nodejs"
 id expense &>>LOG_FILE
@@ -50,10 +50,16 @@ else
     
 fi
 
-#mkdir /app
-#curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
-#cd /app
-#unzip /tmp/backend.zip
+mkdir -p /app
+VALIDATE $? " Creating /app folder"
+
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>> LOG_FILE
+VALIDATE $? "Downloading Backend application code"
+
+cd /app
+unzip /tmp/backend.zip
+VALIDATE $? "Extracting backend application code"
+
 #cd /app
 #npm install
 #vim /etc/systemd/system/backend.service
