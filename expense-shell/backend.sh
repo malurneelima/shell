@@ -32,26 +32,10 @@ VALIDATE(){
 echo "Script started executing at $(date)"|tee -a $LOG_FILE
 CHECK_ROOT
 
-dnf install mysql-server -y &>>LOG_FILE
-VALIDATE $? "Installing MYSQL Server"
 
-systemctl enable mysqld &>>LOG_FILE
-VALIDATE $? "Enabled MYSQL Server"
-
-systemctl start mysqld &>>LOG_FILE
-VALIDATE $? "Started MYSQL Server"
-
-mysql -h 54.242.127.117 -u root -pExpenseApp@1 -e 'show databases;' &>>LOG_FILE
-if [ $? -ne 0 ]
-then
-    echo "MYSQL root is not setup, setting now"&>>LOG_FILE
-    mysql_secure_installation --set-root-pass ExpenseApp@1
-    VALIDATE $? "Setting up root password"
-else
-    echo -e "MYSQL root password is already done setup..$Y SKIPPING$N"|tee -a $LOG_FILE
-fi
-
-
-
-
-
+dnf module disable nodejs -y
+VALIDATE $? "Disabling node jS"
+dnf module enable nodejs:20 -y
+VALIDATE $? "Enabling node jS"
+dnf install nodejs -y
+VALIDATE $? "Installing Node js"
