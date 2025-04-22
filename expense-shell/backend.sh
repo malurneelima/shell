@@ -33,9 +33,27 @@ echo "Script started executing at $(date)"|tee -a $LOG_FILE
 CHECK_ROOT
 
 
-dnf module disable nodejs -y
-VALIDATE $? "Disabling node jS"
-dnf module enable nodejs:20 -y
-VALIDATE $? "Enabling node jS"
-dnf install nodejs -y
-VALIDATE $? "Installing Node js"
+dnf module disable nodejs -y &>>LOG_FILE
+VALIDATE $? "Disable default nodejS"
+dnf module enable nodejs:20 -y &>>LOG_FILE
+VALIDATE $? "EnablingEnable nodejS:20"
+dnf install nodejs -y &>>LOG_FILE
+VALIDATE $? "Install nodejs"
+id expense &>>LOG_FILE
+if [ $? -ne 0 ]
+then
+    echo -e "Expense user does not exist. $G Creating $N"
+    useradd expense &>>LOG_FILE
+    VALIDATE $? "Creating expense user"
+else
+    echo -e "Expense user is already exists...$Y SKIPPING $N"
+    
+fi
+
+#mkdir /app
+#curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+#cd /app
+#unzip /tmp/backend.zip
+#cd /app
+#npm install
+#vim /etc/systemd/system/backend.service
