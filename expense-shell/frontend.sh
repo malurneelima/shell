@@ -46,11 +46,11 @@ curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expe
 VALIDATE $? "download frontend code"
 
 cd /usr/share/nginx/html &>>LOG_FILE
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>>LOG_FILE
 Validate $? "Extract frontend code"
 
-#cp /home/shell/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
+cp /home/ec2-user/shell/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
 
-systemctl restart nginx
-VALIDATE $? "restart nginx"
+systemctl restart nginx &>>LOG_FILE
+
 
