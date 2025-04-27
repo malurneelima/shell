@@ -8,10 +8,30 @@ G="\e[32m"
 N="\e[0m"
 Y="\e[33m"  
 USAGE(){
-    echo -e "USAGE: $R sh 19-backup.sh $N <source> <destination> <number of days>(optional)"
+    echo -e "$R USAGE: $N sh 19-backup.sh <source> <destination> <number of days>(optional)"
 }
 #check if source and destination are empty
 if [ $# -lt 2 ]
 then
     USAGE
 fi
+#checking if the dir exits or no -d is test if it is a dir
+if [ -d $SOURCE_DIR ]
+then
+    echo "$SOURCE_DIR does not exist....Please check"
+fi
+
+if [ -d $DEST_DIR ]
+then 
+    echo "$DEST_DIR does not exist...Please check"
+fi
+
+FILES=$(find $SOURCE_DIR -name "*.log" -mtime +14)
+echo "Files: $Files"
+if [ ! -z $FILES ] # true if file is empty, ! makes the expr false
+then
+    echo "Files are found"
+else
+    echo "No files older than $DAYS"
+fi
+
