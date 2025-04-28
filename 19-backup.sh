@@ -14,6 +14,7 @@ USAGE(){
 if [ $# -lt 2 ]
 then
     USAGE
+    exit 1
 fi
 #checking if the dir exits or no -d is test if it is a dir
 if [ -d $SOURCE_DIR ]
